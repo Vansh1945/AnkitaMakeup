@@ -251,6 +251,11 @@ const ManageServices = () => {
 
     if (!formData.duration.toString().trim()) {
       errors.duration = 'Duration is required';
+    } else {
+      const match = formData.duration.toString().match(/[\d.]+/);
+      if (!match || parseFloat(match[0]) <= 0) {
+        errors.duration = 'Duration must contain a valid positive number (e.g. 240 Mins or 120)';
+      }
     }
 
     if (!editingServiceId && !fileInput) {

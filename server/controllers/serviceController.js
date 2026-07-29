@@ -66,6 +66,8 @@ exports.getService = async (req, res, next) => {
   }
 };
 
+
+
 /**
  * @desc    Create a new service
  * @route   POST /api/v1/services
@@ -76,8 +78,8 @@ exports.createService = async (req, res, next) => {
     const { title, description, category, duration, price, featured, active } = req.body;
 
     const trimmedTitle = title?.trim();
-    const numPrice = Number(price);
-    const numDuration = Number(duration);
+    const numPrice = parseNumber(price);
+    const numDuration = parseDuration(duration);
 
     if (!trimmedTitle || !category || price === undefined) {
       res.status(400);
@@ -89,7 +91,7 @@ exports.createService = async (req, res, next) => {
       return next(new Error('Price must be a valid positive number'));
     }
 
-    if (isNaN(numDuration) || numDuration < 0) {
+    if (isNaN(numDuration) || numDuration <= 0) {
       res.status(400);
       return next(new Error('Duration must be a valid positive number'));
     }
@@ -159,13 +161,29 @@ exports.updateService = async (req, res, next) => {
 
     if (description) service.description = description;
     if (category) service.category = category;
-    if (duration !== undefined) service.duration = Number(duration);
-    if (price !== undefined) service.price = Number(price);
-    
+
+    if (duration !== undefined && duration !== null && duration !== '') {
+      const numDuration = parseDuration(duration);
+      if (isNaN(numDuration) || numDuration <= 0) {
+        res.status(400);
+        return next(new Error('Duration must be a valid positive number'));
+      }
+      service.duration = numDuration;
+    }
+
+    if (price !== undefined && price !== null && price !== '') {
+      const numPrice = parseNumber(price);
+      if (isNaN(numPrice) || numPrice < 0) {
+        res.status(400);
+        return next(new Error('Price must be a valid positive number'));
+      }
+      service.price = numPrice;
+    }
+
     if (featured !== undefined) {
       service.featured = featured === 'true' || featured === true;
     }
-    
+
     if (active !== undefined) {
       service.active = active === 'true' || active === true;
     }

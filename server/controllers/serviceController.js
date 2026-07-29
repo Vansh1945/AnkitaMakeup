@@ -65,8 +65,35 @@ exports.getService = async (req, res, next) => {
     next(error);
   }
 };
+// Helper to parse numeric values from string inputs (e.g. "15000" or "₹15000")
+const parseNumber = (val) => {
+  if (val === undefined || val === null || val === '') return NaN;
+  if (typeof val === 'number') return val;
+  if (typeof val === 'string') {
+    const cleaned = val.replace(/[^0-9.]/g, '');
+    return cleaned ? parseFloat(cleaned) : NaN;
+  }
+  return NaN;
+};
 
-
+// Helper to parse duration strings like "240 Mins", "2.5 Hours", "120", 240
+const parseDuration = (val) => {
+  if (val === undefined || val === null || val === '') return NaN;
+  if (typeof val === 'number') return val;
+  if (typeof val === 'string') {
+    const trimmed = val.trim().toLowerCase();
+    const match = trimmed.match(/^([\d.]+)\s*(hrs?|hours?|mins?|minutes?)?$/i) || trimmed.match(/[\d.]+/);
+    if (!match) return NaN;
+    const num = parseFloat(match[1] || match[0]);
+    if (isNaN(num)) return NaN;
+    
+    if (match[2] && (match[2].startsWith('hour') || match[2].startsWith('hr'))) {
+      return Math.round(num * 60);
+    }
+    return num;
+  }
+  return NaN;
+};
 
 /**
  * @desc    Create a new service

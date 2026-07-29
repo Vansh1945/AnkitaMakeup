@@ -178,10 +178,7 @@ const Services = () => {
                     : '';
 
                 const rawCat = (service.category || '').trim();
-                const matchedDbCat = categories.find(
-                  (c) => c !== 'All' && (c.toLowerCase() === rawCat.toLowerCase() || c.toLowerCase().startsWith(rawCat.toLowerCase()))
-                );
-                const displayCategory = matchedDbCat || (rawCat ? rawCat.charAt(0).toUpperCase() + rawCat.slice(1) : '');
+                const displayCategory = rawCat ? rawCat.charAt(0).toUpperCase() + rawCat.slice(1) : '';
 
                 return (
                   <article

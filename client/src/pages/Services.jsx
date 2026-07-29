@@ -234,14 +234,17 @@ const Services = () => {
                     <div className="px-6 pb-6 pt-3 border-t border-border/60 flex items-center justify-between gap-4 mt-auto">
                       <div>
                         {priceFormatted && (
-                          <div className="font-playfair text-xl font-extrabold text-primary">
-                            {priceFormatted}
+                          <div className="space-y-0.5">
+                            <span className="block text-[10px] uppercase font-bold tracking-wider text-text-light">Starting Price</span>
+                            <div className="font-playfair text-xl font-extrabold text-primary">
+                              {priceFormatted}
+                            </div>
                           </div>
                         )}
                         {service.duration && (
-                          <div className="inline-flex items-center gap-1 text-[11px] text-text-light font-medium mt-0.5">
+                          <div className="inline-flex items-center gap-1 text-[11px] text-text-light font-medium mt-1">
                             <Clock size={12} className="text-primary shrink-0" />
-                            <span>{service.duration}</span>
+                            <span>Approx Duration: {service.duration}</span>
                           </div>
                         )}
                       </div>

@@ -57,8 +57,27 @@ const ManageServices = () => {
     active: true,
     featured: false
   });
+  const [fileInput, setFileInput] = useState(null);
+  const [coverImagePreview, setCoverImagePreview] = useState('');
   const [formErrors, setFormErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('File size must be less than 5MB');
+        return;
+      }
+      setFileInput(file);
+      const previewUrl = URL.createObjectURL(file);
+      setCoverImagePreview(previewUrl);
+      setFormData((prev) => ({ ...prev, coverImage: previewUrl }));
+      if (formErrors.coverImage) {
+        setFormErrors((prev) => ({ ...prev, coverImage: '' }));
+      }
+    }
+  };
 
   // Delete Confirmation Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -174,6 +193,8 @@ const ManageServices = () => {
       active: true,
       featured: false
     });
+    setFileInput(null);
+    setCoverImagePreview('');
     setFormErrors({});
     setIsModalOpen(true);
   };
@@ -181,16 +202,19 @@ const ManageServices = () => {
   // Open Edit Modal
   const handleOpenEditModal = (service) => {
     setEditingServiceId(service._id);
+    const existingImg = service.coverImage || service.image || '';
     setFormData({
       title: service.title || '',
       category: service.category || 'Bridal',
       description: service.description || '',
       price: service.price || '',
       duration: service.duration || '',
-      coverImage: service.coverImage || service.image || '',
+      coverImage: existingImg,
       active: service.active !== false,
       featured: !!service.featured
     });
+    setFileInput(null);
+    setCoverImagePreview(existingImg);
     setFormErrors({});
     setIsModalOpen(true);
   };
@@ -228,8 +252,8 @@ const ManageServices = () => {
       errors.duration = 'Duration is required';
     }
 
-    if (!formData.coverImage.trim()) {
-      errors.coverImage = 'Image URL or Upload is required';
+    if (!editingServiceId && !fileInput) {
+      errors.coverImage = 'Please upload a service cover image file';
     }
 
     setFormErrors(errors);
@@ -243,22 +267,28 @@ const ManageServices = () => {
 
     setSubmitting(true);
     try {
-      const payload = {
-        title: formData.title.trim(),
-        category: formData.category,
-        description: formData.description.trim(),
-        price: Number(formData.price),
-        duration: formData.duration,
-        coverImage: formData.coverImage.trim(),
-        active: formData.active,
-        featured: formData.featured
-      };
+      const payload = new FormData();
+      payload.append('title', formData.title.trim());
+      payload.append('category', formData.category);
+      payload.append('description', formData.description.trim());
+      payload.append('price', Number(formData.price));
+      payload.append('duration', formData.duration);
+      payload.append('active', formData.active);
+      payload.append('featured', formData.featured);
+
+      if (fileInput) {
+        payload.append('coverImage', fileInput);
+      } else if (editingServiceId) {
+        payload.append('coverImage', formData.coverImage);
+      }
+
+      const headers = { 'Content-Type': 'multipart/form-data' };
 
       if (editingServiceId) {
-        await api.put(`/services/${editingServiceId}`, payload);
+        await api.put(`/services/${editingServiceId}`, payload, { headers });
         toast.success('Service Updated Successfully');
       } else {
-        await api.post('/services', payload);
+        await api.post('/services', payload, { headers });
         toast.success('Service Added Successfully');
       }
 
@@ -455,8 +485,8 @@ const ManageServices = () => {
                     <th className="py-4 px-6">Image</th>
                     <th className="py-4 px-6">Service Name</th>
                     <th className="py-4 px-6">Category</th>
-                    <th className="py-4 px-6">Price</th>
-                    <th className="py-4 px-6">Duration</th>
+                    <th className="py-4 px-6">Starting Price</th>
+                    <th className="py-4 px-6">Approx Duration</th>
                     <th className="py-4 px-6 text-center">Status</th>
                     <th className="py-4 px-6 text-center">Featured</th>
                     <th className="py-4 px-6 text-right">Actions</th>
@@ -764,7 +794,7 @@ const ManageServices = () => {
                 {/* Price */}
                 <div className="space-y-1">
                   <label htmlFor="service-price" className="block text-xs font-semibold uppercase tracking-wider text-text">
-                    Price (₹) <span className="text-rose-500">*</span>
+                    Starting Price (₹) <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="number"
@@ -782,13 +812,13 @@ const ManageServices = () => {
 
               </div>
 
-              {/* Duration & Image URL Grid */}
+              {/* Duration & Image Upload Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 
                 {/* Duration */}
                 <div className="space-y-1">
                   <label htmlFor="service-duration" className="block text-xs font-semibold uppercase tracking-wider text-text">
-                    Duration <span className="text-rose-500">*</span>
+                    Approx Duration <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -804,22 +834,24 @@ const ManageServices = () => {
                   {formErrors.duration && <p className="text-[11px] text-rose-500">{formErrors.duration}</p>}
                 </div>
 
-                {/* Image URL / Upload */}
+                {/* Cover Image File Upload */}
                 <div className="space-y-1">
-                  <label htmlFor="service-image" className="block text-xs font-semibold uppercase tracking-wider text-text">
-                    Image URL / Path <span className="text-rose-500">*</span>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-text">
+                    Cover Image File <span className="text-rose-500">*</span>
                   </label>
-                  <input
-                    type="text"
-                    id="service-image"
-                    name="coverImage"
-                    placeholder="https://... image link"
-                    value={formData.coverImage}
-                    onChange={handleInputChange}
-                    className={`w-full rounded-2xl bg-white border px-4 py-3 text-xs text-text focus:outline-none focus:border-primary transition-colors ${
-                      formErrors.coverImage ? 'border-rose-400' : 'border-border'
-                    }`}
-                  />
+                  <div className="relative border-2 border-dashed border-border hover:border-primary transition-colors rounded-2xl p-3.5 text-center cursor-pointer bg-background">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
+                    <Upload className="mx-auto text-text-light mb-1" size={18} />
+                    <span className="block text-xs font-semibold text-text">
+                      {fileInput ? fileInput.name : (editingServiceId ? 'Click to Change Image' : 'Click to Upload Image File')}
+                    </span>
+                    <span className="block text-[10px] text-text-light mt-0.5">PNG, JPG, WEBP up to 5MB</span>
+                  </div>
                   {formErrors.coverImage && <p className="text-[11px] text-rose-500">{formErrors.coverImage}</p>}
                 </div>
 

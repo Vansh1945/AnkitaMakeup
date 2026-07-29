@@ -16,9 +16,23 @@ const GallerySchema = new mongoose.Schema(
       type: String,
       required: [true, 'Gallery image path or URL is required'],
     },
+    imageUrl: {
+      type: String,
+      default: '',
+    },
+    description: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    isVisible: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 

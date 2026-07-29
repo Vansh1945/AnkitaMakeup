@@ -107,15 +107,15 @@ const ServiceDetail = () => {
               {/* Specs */}
               <div className="flex flex-wrap gap-6 mb-8 py-4 border-y border-dark-100">
                 <div>
-                  <span className="block text-xs uppercase tracking-wider text-dark-400 font-semibold mb-1">Duration</span>
+                  <span className="block text-xs uppercase tracking-wider text-dark-400 font-semibold mb-1">Approx Duration</span>
                   <div className="flex items-center gap-1.5 text-dark-700 font-medium font-sans">
                     <Clock size={16} className="text-primary-500" />
-                    <span>{service.duration} Minutes</span>
+                    <span>{service.duration}</span>
                   </div>
                 </div>
 
                 <div>
-                  <span className="block text-xs uppercase tracking-wider text-dark-400 font-semibold mb-1">Rate</span>
+                  <span className="block text-xs uppercase tracking-wider text-dark-400 font-semibold mb-1">Starting Price</span>
                   <span className="text-2xl font-bold text-dark-900 font-sans">
                     {formatPrice(service.price)}
                   </span>

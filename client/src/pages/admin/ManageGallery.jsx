@@ -231,8 +231,8 @@ const ManageGallery = () => {
     const errors = {};
     if (!formData.title.trim()) errors.title = 'Image Title is required';
     if (!formData.category) errors.category = 'Category is required';
-    if (!formData.imageUrl.trim() && !fileInput) {
-      errors.imageUrl = 'Image file or URL is required';
+    if (!editingItem && !fileInput) {
+      errors.image = 'Please select an image file to upload';
     }
 
     setFormErrors(errors);
@@ -246,27 +246,21 @@ const ManageGallery = () => {
 
     setSubmitting(true);
     try {
-      let payload;
-      let headers = {};
+      const payload = new FormData();
+      payload.append('title', formData.title.trim());
+      payload.append('category', formData.category);
+      payload.append('description', formData.description ? formData.description.trim() : '');
+      payload.append('isVisible', formData.isVisible);
 
       if (fileInput) {
-        payload = new FormData();
-        payload.append('title', formData.title.trim());
-        payload.append('category', formData.category);
-        payload.append('description', formData.description.trim());
         payload.append('image', fileInput);
-        payload.append('isVisible', formData.isVisible);
-        headers = { 'Content-Type': 'multipart/form-data' };
-      } else {
-        payload = {
-          title: formData.title.trim(),
-          category: formData.category,
-          description: formData.description.trim(),
-          imageUrl: formData.imageUrl.trim(),
-          image: formData.imageUrl.trim(),
-          isVisible: formData.isVisible
-        };
+      } else if (editingItem) {
+        const existingImg = formData.imageUrl || editingItem.image || editingItem.imageUrl || '';
+        payload.append('imageUrl', existingImg);
+        payload.append('image', existingImg);
       }
+
+      const headers = { 'Content-Type': 'multipart/form-data' };
 
       if (editingItem) {
         try {
@@ -288,7 +282,7 @@ const ManageGallery = () => {
       fetchGallery();
     } catch (err) {
       console.error('Error saving gallery image:', err);
-      toast.error(err?.response?.data?.message || err?.message || 'Failed to upload image');
+      toast.error(err?.response?.data?.message || err?.message || 'Failed to save image');
     } finally {
       setSubmitting(false);
     }
@@ -660,10 +654,10 @@ const ManageGallery = () => {
                 </select>
               </div>
 
-              {/* Image File Selector & URL Input */}
+              {/* Image File Selector */}
               <div className="space-y-2">
                 <label className="block text-xs font-semibold uppercase tracking-wider text-text">
-                  Image Upload <span className="text-rose-500">*</span>
+                  Upload Image File <span className="text-rose-500">*</span>
                 </label>
 
                 {/* Dropzone File Upload */}
@@ -675,25 +669,12 @@ const ManageGallery = () => {
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
                   <Upload className="mx-auto text-text-light mb-1" size={20} />
-                  <span className="block text-xs font-semibold text-text">Click to Upload Image File</span>
+                  <span className="block text-xs font-semibold text-text">
+                    {fileInput ? fileInput.name : (editingItem ? 'Click to Change Image File' : 'Click to Upload Image File')}
+                  </span>
                   <span className="block text-[10px] text-text-light mt-0.5">PNG, JPG, WEBP up to 5MB</span>
                 </div>
-
-                {/* Or Direct URL Input */}
-                <div className="pt-1">
-                  <span className="block text-[10px] uppercase font-semibold text-text-light mb-1">Or Image Link / URL:</span>
-                  <input
-                    type="text"
-                    name="imageUrl"
-                    placeholder="https://... image URL"
-                    value={formData.imageUrl}
-                    onChange={handleInputChange}
-                    className={`w-full rounded-2xl bg-white border px-4 py-2.5 text-xs text-text focus:outline-none focus:border-primary transition-colors ${
-                      formErrors.imageUrl ? 'border-rose-400' : 'border-border'
-                    }`}
-                  />
-                </div>
-                {formErrors.imageUrl && <p className="text-[11px] text-rose-500">{formErrors.imageUrl}</p>}
+                {formErrors.image && <p className="text-[11px] text-rose-500">{formErrors.image}</p>}
               </div>
 
               {/* Live Image Preview */}

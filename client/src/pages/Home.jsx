@@ -273,8 +273,8 @@ const Home = () => {
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     {service.price && (
-                      <span className="absolute top-4 right-4 rounded-full bg-surface/95 backdrop-blur-sm border border-secondary px-3.5 py-1 text-xs font-bold text-primary shadow-xs">
-                        {service.price}
+                      <span className="absolute top-4 right-4 rounded-full bg-surface/95 backdrop-blur-sm border border-secondary px-3.5 py-1 text-[11px] font-bold text-primary shadow-xs">
+                        Starting: {typeof service.price === 'number' ? `₹${service.price.toLocaleString('en-IN')}` : service.price}
                       </span>
                     )}
                   </div>
@@ -283,8 +283,8 @@ const Home = () => {
                     <div className="space-y-2">
                       {service.duration && (
                         <div className="flex items-center gap-1.5 text-[11px] font-medium text-text-light">
-                          <Clock size={13} className="text-primary" />
-                          <span>{service.duration}</span>
+                          <Clock size={13} className="text-primary shrink-0" />
+                          <span>Approx Duration: {service.duration}</span>
                         </div>
                       )}
                       <h3 className="font-playfair text-lg font-bold text-text leading-snug">

@@ -58,31 +58,31 @@ const AdminLayout = () => {
 
       {/* SIDEBAR ON DESKTOP & SLIDE DRAWER ON MOBILE */}
       <aside 
-        className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-dark-950 text-white transition-transform duration-300 md:translate-x-0 md:static md:h-screen ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-[#18181b] text-white transition-transform duration-300 md:translate-x-0 md:static md:h-screen ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Header section of Sidebar */}
-        <div className="flex h-20 items-center justify-between px-6 border-b border-white/5">
-          <Link to="/" className="flex items-center space-x-2 text-gold-300 hover:text-gold-400 transition-colors">
+        <div className="flex h-20 items-center justify-between px-6 border-b border-white/10">
+          <Link to="/" className="flex items-center space-x-2 text-primary-light hover:text-white transition-colors">
             <ArrowLeft size={18} />
             <span className="font-sans text-xs uppercase tracking-widest font-semibold">View Website</span>
           </Link>
           <button 
             onClick={() => setIsSidebarOpen(false)}
-            className="rounded-lg p-1.5 text-dark-300 hover:bg-white/5 md:hidden"
+            className="rounded-lg p-1.5 text-gray-300 hover:bg-white/10 md:hidden"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* User Info panel in Sidebar */}
-        <div className="flex items-center gap-4 px-6 py-6 border-b border-white/5 bg-white/5">
-          <div className="h-12 w-12 rounded-full overflow-hidden bg-dark-800 border border-gold-500/30 flex-shrink-0">
+        <div className="flex items-center gap-4 px-6 py-6 border-b border-white/10 bg-white/5">
+          <div className="h-12 w-12 rounded-full overflow-hidden bg-white/10 border border-primary/40 flex-shrink-0">
             {user?.photo ? (
               <img src={user.photo} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gold-300">
+              <div className="w-full h-full flex items-center justify-center text-primary-light">
                 <User size={20} />
               </div>
             )}
@@ -91,7 +91,7 @@ const AdminLayout = () => {
             <p className="truncate font-playfair font-semibold tracking-wide text-white">
               {user?.username || 'Ankita'}
             </p>
-            <p className="truncate text-xs text-gold-300/80">
+            <p className="truncate text-xs text-gray-300">
               {user?.email || 'ankitamakeup@gmail.com'}
             </p>
           </div>
@@ -107,10 +107,10 @@ const AdminLayout = () => {
                 to={item.href}
                 onClick={() => setIsSidebarOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center gap-4 rounded-xl px-4 py-3.5 text-sm tracking-wider font-sans transition-all duration-200 hover:bg-white/5 ${
+                  `flex items-center gap-4 rounded-xl px-4 py-3.5 text-sm tracking-wider font-sans transition-all duration-200 ${
                     isActive 
-                      ? 'bg-gradient-to-r from-gold-600 to-gold-500 text-white font-medium shadow-md shadow-gold-950/20' 
-                      : 'text-dark-300 hover:text-white'
+                      ? 'bg-primary text-white font-semibold shadow-md shadow-primary/30' 
+                      : 'text-gray-300 hover:bg-white/10 hover:text-white font-normal'
                   }`
                 }
               >
@@ -122,7 +122,7 @@ const AdminLayout = () => {
         </nav>
 
         {/* Footer Area with Logout Action */}
-        <div className="p-4 border-t border-white/5 bg-white/5">
+        <div className="p-4 border-t border-white/10 bg-white/5">
           <button
             onClick={handleLogout}
             className="flex w-full items-center gap-4 rounded-xl px-4 py-3.5 text-sm font-sans tracking-wider text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"

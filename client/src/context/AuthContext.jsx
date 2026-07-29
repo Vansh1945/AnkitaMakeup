@@ -4,7 +4,14 @@ import api from '../services/api';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem('adminUser');
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch (e) {
+      return null;
+    }
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -13,12 +20,16 @@ export const AuthProvider = ({ children }) => {
     const fetchCurrentUser = async () => {
       try {
         const response = await api.get('/auth/me');
-        if (response.success) {
+        if (response.success && response.data) {
           setUser(response.data);
+          localStorage.setItem('adminUser', JSON.stringify(response.data));
         }
       } catch (err) {
-        // User session might not exist, ignore and set null
-        setUser(null);
+        // If server returns error and no token exists, clear user session
+        if (!localStorage.getItem('token')) {
+          setUser(null);
+          localStorage.removeItem('adminUser');
+        }
       } finally {
         setLoading(false);
       }
@@ -34,6 +45,10 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post('/auth/login', credentials);
       if (response.success && response.data) {
         setUser(response.data);
+        localStorage.setItem('adminUser', JSON.stringify(response.data));
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+        }
       }
       return response;
     } catch (err) {
@@ -47,15 +62,13 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     setLoading(true);
     try {
-      const response = await api.post('/auth/logout');
-      if (response.success) {
-        setUser(null);
-      }
-      return response;
+      await api.post('/auth/logout').catch(() => {});
     } catch (err) {
       setError(err.message);
-      throw err;
     } finally {
+      setUser(null);
+      localStorage.removeItem('token');
+      localStorage.removeItem('adminUser');
       setLoading(false);
     }
   };

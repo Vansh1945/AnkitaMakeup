@@ -47,12 +47,13 @@ exports.login = async (req, res, next) => {
     }
 
     // 6. Generate token & store in cookie
-    generateToken(res, admin._id, admin.role);
+    const token = generateToken(res, admin._id, admin.role);
 
     // 7. Send success response (exclude password and PIN)
     res.status(200).json({
       success: true,
       message: 'Login successful',
+      token,
       data: {
         _id: admin._id,
         username: admin.username,

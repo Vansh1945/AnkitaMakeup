@@ -11,9 +11,13 @@ const api = axios.create({
   },
 });
 
-// Request Interceptor (Can append custom authorization headers dynamically if needed)
+// Request Interceptor (Appends authorization bearer token dynamically)
 api.interceptors.request.use(
   (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {

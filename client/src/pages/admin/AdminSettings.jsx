@@ -577,126 +577,245 @@ const AdminSettings = () => {
         {/* ───────────────────────────────────────────────────────────────── */}
         {activeTab === 'branding' && (
           <div className="rounded-3xl bg-surface border border-border p-6 sm:p-8 space-y-6 shadow-xs">
-            <div>
-              <h2 className="font-playfair text-xl font-bold text-text border-b border-border pb-3 flex items-center gap-2">
-                <ImageIcon className="text-primary" size={20} />
-                <span>Branding & Media Assets</span>
-              </h2>
-              <p className="text-xs text-text-light mt-2">
-                Single Website Logo is used across Desktop Navbar, Mobile Navbar & Footer.
-              </p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+              <div>
+                <h2 className="font-playfair text-xl font-bold text-text flex items-center gap-2">
+                  <ImageIcon className="text-primary" size={20} />
+                  <span>Branding & Media Assets</span>
+                </h2>
+                <p className="text-xs text-text-light mt-1">
+                  Manage website Logo, Favicon, Hero Banner, & About Images. If an image is deleted, text defaults will be used.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handleSaveSettings}
+                disabled={saving}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary hover:bg-primary-dark text-white px-6 py-2.5 text-xs font-semibold uppercase tracking-wider shadow-sm transition-all cursor-pointer disabled:opacity-50"
+              >
+                <Save size={14} />
+                <span>{saving ? 'Saving...' : 'Save Media Settings'}</span>
+              </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
               {/* Single Website Logo */}
-              <div className="rounded-2xl border border-border bg-background p-4 space-y-3">
-                <span className="block text-xs font-bold uppercase tracking-wider text-text">Website Logo</span>
-                <div className="h-32 w-full rounded-xl border border-dashed border-border bg-surface flex items-center justify-center relative overflow-hidden">
-                  {previews.logo ? (
-                    <>
-                      <img src={previews.logo} alt="Logo" className="h-full w-full object-contain p-2" />
+              <div className="rounded-2xl border border-border bg-background p-4 space-y-3 flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="block text-xs font-bold uppercase tracking-wider text-text">Website Logo</span>
+                    {previews.logo && (
                       <button
                         type="button"
-                        onClick={() => handleRemoveMedia('logo')}
-                        className="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1 shadow-md hover:scale-110 transition-transform cursor-pointer"
+                        onClick={() => {
+                          handleRemoveMedia('logo');
+                          toast.info('Logo deleted. Click "Save Media Settings" to confirm.');
+                        }}
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                       >
-                        <X size={14} />
+                        <Trash2 size={12} />
+                        <span>Delete Logo</span>
                       </button>
-                    </>
-                  ) : (
-                    <span className="text-xs text-text-light font-medium">No Logo Uploaded</span>
-                  )}
+                    )}
+                  </div>
+                  <div className="h-32 w-full rounded-xl border border-dashed border-border bg-surface flex items-center justify-center relative overflow-hidden">
+                    {previews.logo ? (
+                      <>
+                        <img src={previews.logo} alt="Logo" className="h-full w-full object-contain p-2" />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleRemoveMedia('logo');
+                            toast.info('Logo deleted. Click "Save Media Settings" to confirm.');
+                          }}
+                          className="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1 shadow-md hover:scale-110 transition-transform cursor-pointer"
+                          title="Remove Logo"
+                        >
+                          <X size={14} />
+                        </button>
+                      </>
+                    ) : (
+                      <span className="text-xs text-text-light font-medium">No Logo Uploaded</span>
+                    )}
+                  </div>
                 </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleFileChange('logo', e)}
-                  className="w-full text-xs text-text-light cursor-pointer"
-                />
+                <div className="pt-2">
+                  <label className="block text-[11px] text-text-light mb-1 font-medium">Upload New Logo:</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange('logo', e)}
+                    className="w-full text-xs text-text-light cursor-pointer"
+                  />
+                </div>
               </div>
 
               {/* Website Favicon */}
-              <div className="rounded-2xl border border-border bg-background p-4 space-y-3">
-                <span className="block text-xs font-bold uppercase tracking-wider text-text">Website Favicon</span>
-                <div className="h-32 w-full rounded-xl border border-dashed border-border bg-surface flex items-center justify-center relative overflow-hidden">
-                  {previews.favicon ? (
-                    <>
-                      <img src={previews.favicon} alt="Favicon" className="h-12 w-12 object-contain" />
+              <div className="rounded-2xl border border-border bg-background p-4 space-y-3 flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="block text-xs font-bold uppercase tracking-wider text-text">Website Favicon</span>
+                    {previews.favicon && (
                       <button
                         type="button"
-                        onClick={() => handleRemoveMedia('favicon')}
-                        className="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1 shadow-md hover:scale-110 transition-transform cursor-pointer"
+                        onClick={() => {
+                          handleRemoveMedia('favicon');
+                          toast.info('Favicon deleted. Click "Save Media Settings" to confirm.');
+                        }}
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                       >
-                        <X size={14} />
+                        <Trash2 size={12} />
+                        <span>Delete Favicon</span>
                       </button>
-                    </>
-                  ) : (
-                    <span className="text-xs text-text-light font-medium">No Favicon</span>
-                  )}
+                    )}
+                  </div>
+                  <div className="h-32 w-full rounded-xl border border-dashed border-border bg-surface flex items-center justify-center relative overflow-hidden">
+                    {previews.favicon ? (
+                      <>
+                        <img src={previews.favicon} alt="Favicon" className="h-12 w-12 object-contain" />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleRemoveMedia('favicon');
+                            toast.info('Favicon deleted. Click "Save Media Settings" to confirm.');
+                          }}
+                          className="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1 shadow-md hover:scale-110 transition-transform cursor-pointer"
+                          title="Remove Favicon"
+                        >
+                          <X size={14} />
+                        </button>
+                      </>
+                    ) : (
+                      <span className="text-xs text-text-light font-medium">No Favicon</span>
+                    )}
+                  </div>
                 </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleFileChange('favicon', e)}
-                  className="w-full text-xs text-text-light cursor-pointer"
-                />
+                <div className="pt-2">
+                  <label className="block text-[11px] text-text-light mb-1 font-medium">Upload New Favicon:</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange('favicon', e)}
+                    className="w-full text-xs text-text-light cursor-pointer"
+                  />
+                </div>
               </div>
 
               {/* Hero Cover Image */}
-              <div className="rounded-2xl border border-border bg-background p-4 space-y-3">
-                <span className="block text-xs font-bold uppercase tracking-wider text-text">Hero Cover Image</span>
-                <div className="h-32 w-full rounded-xl border border-dashed border-border bg-surface flex items-center justify-center relative overflow-hidden">
-                  {previews.heroBannerImage ? (
-                    <>
-                      <img src={previews.heroBannerImage} alt="Hero Banner" className="h-full w-full object-cover" />
+              <div className="rounded-2xl border border-border bg-background p-4 space-y-3 flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="block text-xs font-bold uppercase tracking-wider text-text">Hero Cover Image</span>
+                    {previews.heroBannerImage && (
                       <button
                         type="button"
-                        onClick={() => handleRemoveMedia('heroBannerImage')}
-                        className="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1 shadow-md hover:scale-110 transition-transform cursor-pointer"
+                        onClick={() => {
+                          handleRemoveMedia('heroBannerImage');
+                          toast.info('Hero cover image deleted. Click "Save Media Settings" to confirm.');
+                        }}
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                       >
-                        <X size={14} />
+                        <Trash2 size={12} />
+                        <span>Delete Image</span>
                       </button>
-                    </>
-                  ) : (
-                    <span className="text-xs text-text-light font-medium">No Cover Image</span>
-                  )}
+                    )}
+                  </div>
+                  <div className="h-32 w-full rounded-xl border border-dashed border-border bg-surface flex items-center justify-center relative overflow-hidden">
+                    {previews.heroBannerImage ? (
+                      <>
+                        <img src={previews.heroBannerImage} alt="Hero Banner" className="h-full w-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleRemoveMedia('heroBannerImage');
+                            toast.info('Hero cover image deleted. Click "Save Media Settings" to confirm.');
+                          }}
+                          className="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1 shadow-md hover:scale-110 transition-transform cursor-pointer"
+                          title="Remove Hero Cover Image"
+                        >
+                          <X size={14} />
+                        </button>
+                      </>
+                    ) : (
+                      <span className="text-xs text-text-light font-medium">No Cover Image</span>
+                    )}
+                  </div>
                 </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleFileChange('heroBannerImage', e)}
-                  className="w-full text-xs text-text-light cursor-pointer"
-                />
+                <div className="pt-2">
+                  <label className="block text-[11px] text-text-light mb-1 font-medium">Upload New Cover Image:</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange('heroBannerImage', e)}
+                    className="w-full text-xs text-text-light cursor-pointer"
+                  />
+                </div>
               </div>
 
               {/* About Section Image */}
-              <div className="rounded-2xl border border-border bg-background p-4 space-y-3">
-                <span className="block text-xs font-bold uppercase tracking-wider text-text">About Section Image</span>
-                <div className="h-32 w-full rounded-xl border border-dashed border-border bg-surface flex items-center justify-center relative overflow-hidden">
-                  {previews.aboutImage ? (
-                    <>
-                      <img src={previews.aboutImage} alt="About Image" className="h-full w-full object-cover" />
+              <div className="rounded-2xl border border-border bg-background p-4 space-y-3 flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="block text-xs font-bold uppercase tracking-wider text-text">About Section Image</span>
+                    {previews.aboutImage && (
                       <button
                         type="button"
-                        onClick={() => handleRemoveMedia('aboutImage')}
-                        className="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1 shadow-md hover:scale-110 transition-transform cursor-pointer"
+                        onClick={() => {
+                          handleRemoveMedia('aboutImage');
+                          toast.info('About image deleted. Click "Save Media Settings" to confirm.');
+                        }}
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                       >
-                        <X size={14} />
+                        <Trash2 size={12} />
+                        <span>Delete Image</span>
                       </button>
-                    </>
-                  ) : (
-                    <span className="text-xs text-text-light font-medium">No About Image</span>
-                  )}
+                    )}
+                  </div>
+                  <div className="h-32 w-full rounded-xl border border-dashed border-border bg-surface flex items-center justify-center relative overflow-hidden">
+                    {previews.aboutImage ? (
+                      <>
+                        <img src={previews.aboutImage} alt="About Image" className="h-full w-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleRemoveMedia('aboutImage');
+                            toast.info('About image deleted. Click "Save Media Settings" to confirm.');
+                          }}
+                          className="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1 shadow-md hover:scale-110 transition-transform cursor-pointer"
+                          title="Remove About Image"
+                        >
+                          <X size={14} />
+                        </button>
+                      </>
+                    ) : (
+                      <span className="text-xs text-text-light font-medium">No About Image</span>
+                    )}
+                  </div>
                 </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleFileChange('aboutImage', e)}
-                  className="w-full text-xs text-text-light cursor-pointer"
-                />
+                <div className="pt-2">
+                  <label className="block text-[11px] text-text-light mb-1 font-medium">Upload New About Image:</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange('aboutImage', e)}
+                    className="w-full text-xs text-text-light cursor-pointer"
+                  />
+                </div>
               </div>
 
+            </div>
+
+            <div className="pt-4 border-t border-border flex justify-end">
+              <button
+                type="button"
+                onClick={handleSaveSettings}
+                disabled={saving}
+                className="inline-flex items-center gap-2 rounded-full bg-primary hover:bg-primary-dark text-white px-8 py-3 text-xs font-semibold uppercase tracking-wider shadow-sm transition-all cursor-pointer disabled:opacity-50"
+              >
+                <Save size={14} />
+                <span>{saving ? 'Saving...' : 'Save Media Settings'}</span>
+              </button>
             </div>
           </div>
         )}

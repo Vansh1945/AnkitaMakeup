@@ -37,6 +37,20 @@ const ContactPage = () => {
   const studioAddress = settings?.address || settings?.businessAddress || 'New Delhi, India';
   const instagramUrl = settings?.instagram || 'https://instagram.com';
 
+  // Helper to extract clean username handle without URL query params (e.g., ?igsh=...)
+  const getInstagramHandle = (urlStr) => {
+    if (!urlStr) return '@ankitamakeup';
+    try {
+      let clean = urlStr.trim().split('?')[0].split('#')[0].replace(/\/+$/, '');
+      const parts = clean.split('/');
+      let handle = parts[parts.length - 1] || '';
+      handle = handle.replace(/^@/, '');
+      return handle ? `@${handle}` : '@ankitamakeup';
+    } catch (e) {
+      return '@ankitamakeup';
+    }
+  };
+
   const {
     register,
     handleSubmit,
@@ -144,7 +158,7 @@ const ContactPage = () => {
                 <Instagram size={18} />
               </div>
               <h3 className="font-playfair text-base font-bold text-text">Instagram</h3>
-              <p className="text-[11px] text-text-light font-medium truncate">{instagramUrl.replace(/^https?:\/\/(www\.)?instagram\.com\/?/, '@') || '@ankitamakeup'}</p>
+              <p className="text-[11px] text-text-light font-medium truncate">{getInstagramHandle(instagramUrl)}</p>
             </div>
             <a
               href={instagramUrl}

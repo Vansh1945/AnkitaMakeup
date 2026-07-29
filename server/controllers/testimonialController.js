@@ -7,10 +7,10 @@ const Testimonial = require('../models/Testimonial');
  */
 exports.addReview = async (req, res, next) => {
   try {
-    const { customerName, serviceName, phone, email, rating, review } = req.body;
+    const { customerName, name, clientName, serviceName, category, phone, email, rating, review, comment } = req.body;
 
-    const trimmedName = customerName?.trim();
-    const trimmedReview = review?.trim();
+    const trimmedName = (customerName || name || clientName || '')?.toString().trim();
+    const trimmedReview = (review || comment || '')?.toString().trim();
     const numericRating = Number(rating);
 
     if (!trimmedName || !rating || !trimmedReview) {
@@ -26,13 +26,15 @@ exports.addReview = async (req, res, next) => {
     let image = '';
     if (req.file) {
       image = req.file.path || req.file.secure_url || '';
+    } else if (req.body.image || req.body.imageUrl) {
+      image = req.body.image || req.body.imageUrl;
     }
 
     const testimonial = await Testimonial.create({
       customerName: trimmedName,
-      serviceName: serviceName ? serviceName.trim() : '',
-      phone: phone ? phone.trim() : '',
-      email: email ? email.trim().toLowerCase() : '',
+      serviceName: (serviceName || category || '')?.toString().trim(),
+      phone: phone ? phone.toString().trim() : '',
+      email: email ? email.toString().trim().toLowerCase() : '',
       rating: numericRating,
       review: trimmedReview,
       image,

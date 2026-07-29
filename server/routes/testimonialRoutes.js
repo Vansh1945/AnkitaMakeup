@@ -13,8 +13,17 @@ const { sensitiveLimiter } = require('../middleware/rateLimiter');
 
 const router = express.Router();
 
+// Middleware to conditionally run multer ONLY when content-type is multipart/form-data
+const optionalUploadImage = (req, res, next) => {
+  const contentType = req.headers['content-type'] || '';
+  if (contentType.includes('multipart/form-data')) {
+    return uploadTestimonialImage(req, res, next);
+  }
+  next();
+};
+
 // Public routes
-router.post('/', sensitiveLimiter, uploadTestimonialImage, addReview);
+router.post('/', sensitiveLimiter, optionalUploadImage, addReview);
 router.get('/approved', getApprovedReviews);
 
 // Protected routes (Admin only)

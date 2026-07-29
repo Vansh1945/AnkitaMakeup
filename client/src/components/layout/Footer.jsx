@@ -26,10 +26,10 @@ const Footer = () => {
   return (
     <footer className="bg-[#18181b] text-gray-100 font-sans border-t border-white/10" aria-label="Site Footer">
       <div className="mx-auto max-w-[96%] px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
-        
+
         {/* Responsive Grid: Desktop (4 Columns), Tablet (2 Columns), Mobile (1 Column) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10">
-          
+
           {/* ====================================================== */}
           {/* 1. BRAND SECTION */}
           {/* ====================================================== */}
@@ -179,16 +179,24 @@ const Footer = () => {
         <hr className="my-6 border-white/10" />
 
         {/* ====================================================== */}
-        {/* 5. COPYRIGHT BASE */}
+        {/* 5. COPYRIGHT BASE & CREATOR CREDIT */}
         {/* ====================================================== */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 space-y-3 sm:space-y-0 font-light">
           <p>
             © {currentYear} {settings?.websiteName || 'Ankita Makeup'}. All Rights Reserved.
           </p>
-          <div className="flex space-x-6 text-[11px]">
-            <Link to="/contact" className="hover:text-primary-400 transition-colors">
-              On-Location & Freelance Services
-            </Link>
+          <div className="flex items-center gap-4 text-[11px]">
+            <span>
+              Designed & Developed by{' '}
+              <a
+                href="https://vanshprofile.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-pink-300 hover:text-white font-medium underline transition-colors"
+              >
+                Vansh
+              </a>
+            </span>
           </div>
         </div>
 

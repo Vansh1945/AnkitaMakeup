@@ -39,7 +39,7 @@ const AdminLayout = () => {
     <div className="flex min-h-screen bg-[#fcfaf8]">
       
       {/* MOBILE HEADER BAR */}
-      <div className="flex h-16 w-full items-center justify-between border-b border-dark-100 bg-white px-4 md:hidden fixed top-20 z-30">
+      <div className="flex h-16 w-full items-center justify-between border-b border-border bg-white px-4 md:hidden fixed top-0 left-0 right-0 z-30 shadow-xs">
         <button
           onClick={() => setIsSidebarOpen(true)}
           className="rounded-lg p-2 text-dark-600 hover:bg-dark-50"

@@ -62,11 +62,18 @@ export const getReviewStats = async () => {
  */
 export const submitReview = async (reviewPayload) => {
   try {
+    const payload = {
+      ...reviewPayload,
+      customerName: reviewPayload.customerName || reviewPayload.name,
+      name: reviewPayload.name || reviewPayload.customerName,
+      review: reviewPayload.review || reviewPayload.comment,
+      comment: reviewPayload.comment || reviewPayload.review,
+    };
     let response;
     try {
-      response = await api.post('/testimonials', reviewPayload);
+      response = await api.post('/testimonials', payload);
     } catch (e) {
-      response = await api.post('/reviews', reviewPayload);
+      response = await api.post('/reviews', payload);
     }
     return response;
   } catch (error) {

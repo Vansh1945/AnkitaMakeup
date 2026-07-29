@@ -65,7 +65,7 @@ const WebsiteSettingsSchema = new mongoose.Schema(
     metaTitle: { type: String, default: 'Ankita Makeup | Professional Makeup Artist', trim: true },
     metaDescription: { type: String, default: 'Explore professional makeup artist portfolio by Ankita in Delhi.', trim: true },
     metaKeywords: { type: String, default: 'makeup artist, delhi, bridal makeup, hairstyling', trim: true },
-    canonicalUrl: { type: String, default: 'https://ankitamakeup.com' },
+    canonicalUrl: { type: String, default: 'https://ankitamakeup.vercel.app' },
     googleAnalyticsId: { type: String, default: '' },
     googleSearchConsoleVerification: { type: String, default: '' },
     robotsMeta: { type: String, default: 'index, follow' },

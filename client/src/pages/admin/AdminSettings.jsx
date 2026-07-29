@@ -100,7 +100,7 @@ const AdminSettings = () => {
     metaTitle: 'Ankita Makeup | Professional Makeup Artist',
     metaDescription: 'Explore professional makeup artist portfolio by Ankita in Delhi.',
     metaKeywords: 'makeup artist, delhi, bridal makeup, hairstyling',
-    canonicalUrl: 'https://ankitamakeup.com',
+    canonicalUrl: 'https://ankitamakeup.vercel.app',
     googleAnalyticsId: '',
     googleSearchConsoleVerification: '',
     robotsMeta: 'index, follow',
@@ -407,11 +407,10 @@ const AdminSettings = () => {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  isActive
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${isActive
                     ? 'bg-primary text-white shadow-xs'
                     : 'bg-surface border border-border text-text-light hover:text-text hover:bg-surface-muted'
-                }`}
+                  }`}
               >
                 <Icon size={14} />
                 <span>{tab.label}</span>
@@ -1170,9 +1169,8 @@ const AdminSettings = () => {
                   <button
                     type="button"
                     onClick={() => handleToggleChange('instagramEnabled')}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-colors ${
-                      formData.instagramEnabled ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'
-                    }`}
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-colors ${formData.instagramEnabled ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'
+                      }`}
                   >
                     {formData.instagramEnabled ? 'Enabled' : 'Disabled'}
                   </button>
@@ -1199,9 +1197,8 @@ const AdminSettings = () => {
                   <button
                     type="button"
                     onClick={() => handleToggleChange('facebookEnabled')}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-colors ${
-                      formData.facebookEnabled ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'
-                    }`}
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-colors ${formData.facebookEnabled ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'
+                      }`}
                   >
                     {formData.facebookEnabled ? 'Enabled' : 'Disabled'}
                   </button>
@@ -1228,9 +1225,8 @@ const AdminSettings = () => {
                   <button
                     type="button"
                     onClick={() => handleToggleChange('youtubeEnabled')}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-colors ${
-                      formData.youtubeEnabled ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'
-                    }`}
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-colors ${formData.youtubeEnabled ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'
+                      }`}
                   >
                     {formData.youtubeEnabled ? 'Enabled' : 'Disabled'}
                   </button>
@@ -1257,9 +1253,8 @@ const AdminSettings = () => {
                   <button
                     type="button"
                     onClick={() => handleToggleChange('pinterestEnabled')}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-colors ${
-                      formData.pinterestEnabled ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'
-                    }`}
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-colors ${formData.pinterestEnabled ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'
+                      }`}
                   >
                     {formData.pinterestEnabled ? 'Enabled' : 'Disabled'}
                   </button>
@@ -1351,7 +1346,7 @@ const AdminSettings = () => {
                   value={formData.canonicalUrl || ''}
                   onChange={handleInputChange}
                   className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-xs text-text focus:border-primary focus:outline-none"
-                  placeholder="https://ankitamakeup.com"
+                  placeholder="https://ankitamakeup.vercel.app"
                 />
               </div>
 

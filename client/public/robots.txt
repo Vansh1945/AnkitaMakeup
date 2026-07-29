@@ -8,4 +8,4 @@ Disallow: /login
 
 # Sitemap location
 Sitemap: http://localhost:5173/sitemap.xml
-Sitemap: https://ankitamakeup.com/sitemap.xml
+Sitemap: https://ankitamakeup.vercel.app/sitemap.xml

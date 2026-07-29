@@ -78,16 +78,12 @@ app.use('/api/v1', generalLimiter);
 // Root API Router Entrypoint
 app.use('/api/v1', apiRouter);
 
-// Root health & ping response for Render / Uptime monitors
-app.get('/', (req, res) => {
-  const fullUrl = `${req.protocol}://${req.get('host')}`;
+// Root & /health ping response for Render / Uptime monitors
+app.get('/health', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'Ankita Makeup Studio Backend API is Live',
     version: '1.0.0',
-    url: fullUrl,
-    apiUrl: `${fullUrl}/api/v1`,
-    health: `${fullUrl}/health`
   });
 });
 

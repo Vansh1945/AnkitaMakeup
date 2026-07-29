@@ -14,7 +14,7 @@ import Footer from './components/layout/Footer';
 import ScrollToTop from './components/common/ScrollToTop';
 import Loading from './components/common/Loading';
 
-// Lazy Loaded Pages (Code Splitting)
+// Public Lazy Loaded Pages
 const Home = lazy(() => import('./pages/Home'));
 const Services = lazy(() => import('./pages/Services'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
@@ -23,17 +23,18 @@ const ContactPage = lazy(() => import('./pages/ContactPage'));
 const ReviewsPage = lazy(() => import('./pages/ReviewsPage'));
 const About = lazy(() => import('./pages/About'));
 const Certificates = lazy(() => import('./pages/Certificates'));
-const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
-const ManageAppointments = lazy(() => import('./pages/admin/ManageAppointments'));
-const ManageServices = lazy(() => import('./pages/admin/ManageServices'));
-const ManageGallery = lazy(() => import('./pages/admin/ManageGallery'));
-const ManageCertificates = lazy(() => import('./pages/admin/ManageCertificates'));
-const AdminMessages = lazy(() => import('./pages/admin/AdminMessages'));
-const AdminTestimonials = lazy(() => import('./pages/admin/AdminTestimonials'));
-const AdminProfile = lazy(() => import('./pages/admin/AdminProfile'));
-const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
 const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'));
-const ManageCategories = lazy(() => import('./pages/admin/ManageCategories'));
+
+// Direct Admin Page Imports (Ensures instant SPA transitions without full-screen loading flashes)
+import AdminDashboard from './pages/admin/AdminDashboard';
+import ManageAppointments from './pages/admin/ManageAppointments';
+import ManageServices from './pages/admin/ManageServices';
+import ManageGallery from './pages/admin/ManageGallery';
+import ManageCertificates from './pages/admin/ManageCertificates';
+import AdminMessages from './pages/admin/AdminMessages';
+import AdminTestimonials from './pages/admin/AdminTestimonials';
+import AdminSettings from './pages/admin/AdminSettings';
+import ManageCategories from './pages/admin/ManageCategories';
 
 // Components
 import ProtectedRoute from './components/common/ProtectedRoute';

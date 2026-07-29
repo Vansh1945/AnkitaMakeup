@@ -286,7 +286,7 @@ const AdminDashboard = () => {
               value={stats.totalAppointments}
               subtitle="Total Bookings"
               statusDotColor="bg-blue-500"
-              onClick={() => navigate('/admin/services')}
+              onClick={() => navigate('/admin/appointments')}
             />
 
             {/* Card 3: Reviews */}
@@ -316,7 +316,7 @@ const AdminDashboard = () => {
               value={stats.totalCertificates}
               subtitle="Professional Certificates"
               statusDotColor="bg-indigo-500"
-              onClick={() => navigate('/certificates')}
+              onClick={() => navigate('/admin/certificates')}
             />
 
             {/* Card 6: Pending Reviews */}
@@ -353,7 +353,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <Link
-                  to="/admin/services"
+                  to="/admin/appointments"
                   className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-dark transition-colors"
                 >
                   <span>View All</span>
@@ -511,7 +511,7 @@ const AdminDashboard = () => {
                 </Link>
 
                 <Link
-                  to="/certificates"
+                  to="/admin/certificates"
                   className="flex items-center justify-between p-3.5 rounded-2xl bg-background border border-border text-text hover:border-primary/60 hover:bg-secondary-light/30 transition-all duration-300 font-semibold text-xs group"
                 >
                   <div className="flex items-center gap-2.5">

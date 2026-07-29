@@ -18,6 +18,16 @@ export const AuthProvider = ({ children }) => {
   // Load user data on startup
   useEffect(() => {
     const fetchCurrentUser = async () => {
+      const storedToken = localStorage.getItem('token');
+      const storedUser = localStorage.getItem('adminUser');
+
+      // If no token or stored user, skip API check
+      if (!storedToken && !storedUser) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await api.get('/auth/me');
         if (response.success && response.data) {
@@ -25,11 +35,9 @@ export const AuthProvider = ({ children }) => {
           localStorage.setItem('adminUser', JSON.stringify(response.data));
         }
       } catch (err) {
-        // If server returns error and no token exists, clear user session
-        if (!localStorage.getItem('token')) {
-          setUser(null);
-          localStorage.removeItem('adminUser');
-        }
+        setUser(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('adminUser');
       } finally {
         setLoading(false);
       }
@@ -62,9 +70,9 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     setLoading(true);
     try {
-      await api.post('/auth/logout').catch(() => {});
+      await api.post('/auth/logout');
     } catch (err) {
-      setError(err.message);
+      console.error('Logout error:', err);
     } finally {
       setUser(null);
       localStorage.removeItem('token');

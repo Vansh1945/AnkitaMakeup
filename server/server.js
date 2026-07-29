@@ -56,6 +56,16 @@ app.use('/api/v1', generalLimiter);
 // Root API Router Entrypoint
 app.use('/api/v1', apiRouter);
 
+// Root health & ping response for Render / Uptime monitors
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Ankita Makeup Studio Backend API is Live',
+    version: '1.0.0',
+    health: '/api/v1/health'
+  });
+});
+
 // Fallbacks for undefined routes and global errors
 app.use(notFound);
 app.use(errorHandler);

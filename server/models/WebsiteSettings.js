@@ -6,7 +6,7 @@ const WebsiteSettingsSchema = new mongoose.Schema(
     websiteName: { type: String, default: 'Ankita Makeup', trim: true },
     businessName: { type: String, default: 'Ankita Makeup Studio', trim: true },
     ownerName: { type: String, default: 'Ankita', trim: true },
-    tagline: { type: String, default: 'Professional Makeup & Hair Artist', trim: true },
+    tagline: { type: String, default: 'Professional Makeup & Hair Duo', trim: true },
     businessTiming: { type: String, default: '09:00 AM - 08:00 PM', trim: true },
     yearsOfExperience: { type: String, default: '7+', trim: true },
     workingSince: { type: String, default: '2017', trim: true },
@@ -18,7 +18,6 @@ const WebsiteSettingsSchema = new mongoose.Schema(
     favicon: { type: String, default: '' },
     heroBannerImage: { type: String, default: '' },
     aboutImage: { type: String, default: '' },
-    ownerProfileImage: { type: String, default: '' },
 
     // Section 3: Hero Section
     heroTitle: { type: String, default: 'Beautiful Makeup For Your Special Day', trim: true },

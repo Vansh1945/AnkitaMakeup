@@ -13,7 +13,7 @@ router.get('/health', (req, res) => {
   });
 });
 
-// Mount sub-routes
+router.use('/admin', require('./adminRoutes'));
 router.use('/auth', require('./authRoutes'));
 router.use('/services', require('./serviceRoutes'));
 router.use('/gallery', require('./galleryRoutes'));

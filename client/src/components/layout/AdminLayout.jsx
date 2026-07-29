@@ -4,11 +4,13 @@ import {
   Menu, X, Sparkles, Image, Mail, MessageSquare, User, LogOut, ArrowLeft, Settings, LayoutDashboard, Calendar, Award, Tag
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
 
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { logout, user } = useAuth();
+  const { settings } = useSettings();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -79,8 +81,8 @@ const AdminLayout = () => {
         {/* User Info panel in Sidebar */}
         <div className="flex items-center gap-4 px-6 py-6 border-b border-white/10 bg-white/5">
           <div className="h-12 w-12 rounded-full overflow-hidden bg-white/10 border border-primary/40 flex-shrink-0">
-            {user?.photo ? (
-              <img src={user.photo} alt="Avatar" className="w-full h-full object-cover" />
+            {(user?.photo || settings?.aboutImage) ? (
+              <img src={user?.photo || settings?.aboutImage} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-primary-light">
                 <User size={20} />

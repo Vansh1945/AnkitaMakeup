@@ -41,7 +41,7 @@ exports.updateSettings = async (req, res, next) => {
     const allowedFields = [
       'websiteName', 'businessName', 'ownerName', 'tagline', 'businessTiming',
       'yearsOfExperience', 'workingSince', 'shortDescription', 'fullAboutDescription',
-      'logo', 'favicon', 'heroBannerImage', 'aboutImage', 'ownerProfileImage',
+      'logo', 'favicon', 'heroBannerImage', 'aboutImage',
       'heroTitle', 'heroSubtitle', 'heroDescription', 'heroButtonText', 'heroButtonLink',
       'heroSecondaryButtonText', 'heroSecondaryButtonLink', 'heroOverlayOpacity',
       'aboutTitle', 'aboutSubtitle', 'aboutShortDescription', 'happyClientsCount',

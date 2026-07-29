@@ -28,7 +28,9 @@ const Home = () => {
 
   // Dynamic Data States
   const [featuredServices, setFeaturedServices] = useState([]);
+  const [totalServicesCount, setTotalServicesCount] = useState(0);
   const [galleryImages, setGalleryImages] = useState([]);
+  const [totalGalleryCount, setTotalGalleryCount] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,10 +46,12 @@ const Home = () => {
         getApprovedReviews()
       ]);
 
-      // Services (Take first 3)
+      // Services (Take count of all services, feature first 3)
       if (servicesData.status === 'fulfilled' && Array.isArray(servicesData.value)) {
+        setTotalServicesCount(servicesData.value.length);
         setFeaturedServices(servicesData.value.slice(0, 3));
       } else {
+        setTotalServicesCount(0);
         setFeaturedServices([]);
       }
 
@@ -58,7 +62,8 @@ const Home = () => {
         if (Array.isArray(res)) list = res;
         else if (res && Array.isArray(res.data)) list = res.data;
         else if (res && Array.isArray(res.items)) list = res.items;
-
+        else if (res && Array.isArray(res.gallery)) list = res.gallery;
+        setTotalGalleryCount(list.length);
         setGalleryImages(list);
       } else {
         setGalleryImages([]);
@@ -95,9 +100,6 @@ const Home = () => {
     settings?.heroBannerImage ||
     settings?.aboutImage ||
     'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=800&auto=format&fit=crop';
-  const aboutOwnerImg =
-    settings?.aboutImage ||
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop';
 
   return (
     <main className="min-h-screen bg-background text-text font-sans pb-16">
@@ -170,9 +172,9 @@ const Home = () => {
                   loading="lazy"
                   className="h-[420px] w-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute bottom-6 left-6 right-6 rounded-2xl bg-surface/95 backdrop-blur-md p-4 border border-border shadow-sm text-center">
-                  <span className="font-playfair text-base font-bold text-text">{ownerName}</span>
-                  <p className="text-[11px] text-primary font-semibold uppercase tracking-wider">Certified Makeup Specialist</p>
+                <div className="absolute bottom-6 left-6 right-6 rounded-2xl bg-black/75 backdrop-blur-xl p-4 border border-white/20 shadow-xl text-center">
+                  <span className="font-playfair text-lg font-bold text-white block tracking-wide drop-shadow-sm">{ownerName}</span>
+                  <p className="text-[11px] text-pink-300 font-bold uppercase tracking-wider mt-0.5">Professional Makeup & Hair Duo</p>
                 </div>
               </div>
             </div>
@@ -213,7 +215,7 @@ const Home = () => {
               <Sparkles size={26} />
             </div>
             <div className="font-playfair text-3xl sm:text-4xl font-black text-primary">
-              {featuredServices.length > 0 ? `${featuredServices.length}+` : '12+'}
+              {totalServicesCount > 0 ? `${totalServicesCount}+` : (featuredServices.length > 0 ? `${featuredServices.length}+` : '0')}
             </div>
             <div className="text-xs font-semibold text-text uppercase tracking-wider">
               Services Offered
@@ -225,7 +227,7 @@ const Home = () => {
               <ImageIcon size={26} />
             </div>
             <div className="font-playfair text-3xl sm:text-4xl font-black text-primary">
-              {galleryImages.length > 0 ? `${galleryImages.length}+` : '180+'}
+              {totalGalleryCount > 0 ? `${totalGalleryCount}+` : (galleryImages.length > 0 ? `${galleryImages.length}+` : '0')}
             </div>
             <div className="text-xs font-semibold text-text uppercase tracking-wider">
               Portfolio Images

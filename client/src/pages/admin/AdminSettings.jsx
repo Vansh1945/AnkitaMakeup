@@ -41,7 +41,7 @@ const AdminSettings = () => {
     websiteName: 'Ankita Makeup',
     businessName: 'Ankita Makeup Studio',
     ownerName: 'Ankita',
-    tagline: 'Professional Makeup & Hair Artist',
+    tagline: 'Professional Makeup & Hair Duo',
     businessTiming: '09:00 AM - 08:00 PM',
     yearsOfExperience: '7+',
     workingSince: '2017',
@@ -53,7 +53,6 @@ const AdminSettings = () => {
     favicon: '',
     heroBannerImage: '',
     aboutImage: '',
-    ownerProfileImage: '',
 
     // Section 3: Hero Section
     heroTitle: 'Beautiful Makeup For Your Special Day',
@@ -145,8 +144,7 @@ const AdminSettings = () => {
             logo: data.logo || '',
             favicon: data.favicon || '',
             heroBannerImage: data.heroBannerImage || '',
-            aboutImage: data.aboutImage || '',
-            ownerProfileImage: data.ownerProfileImage || ''
+            aboutImage: data.aboutImage || ''
           });
         }
       } catch (err) {
@@ -210,8 +208,7 @@ const AdminSettings = () => {
       logo: initialData.logo || '',
       favicon: initialData.favicon || '',
       heroBannerImage: initialData.heroBannerImage || '',
-      aboutImage: initialData.aboutImage || '',
-      ownerProfileImage: initialData.ownerProfileImage || ''
+      aboutImage: initialData.aboutImage || ''
     });
     toast.info('Form reset to saved values');
   };
@@ -225,7 +222,7 @@ const AdminSettings = () => {
 
       // Append text & boolean fields
       Object.keys(formData).forEach((key) => {
-        if (!['logo', 'favicon', 'heroBannerImage', 'aboutImage', 'ownerProfileImage'].includes(key)) {
+        if (!['logo', 'favicon', 'heroBannerImage', 'aboutImage'].includes(key)) {
           submitData.append(key, formData[key] === null || formData[key] === undefined ? '' : formData[key]);
         }
       });
@@ -408,8 +405,8 @@ const AdminSettings = () => {
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${isActive
-                    ? 'bg-primary text-white shadow-xs'
-                    : 'bg-surface border border-border text-text-light hover:text-text hover:bg-surface-muted'
+                  ? 'bg-primary text-white shadow-xs'
+                  : 'bg-surface border border-border text-text-light hover:text-text hover:bg-surface-muted'
                   }`}
               >
                 <Icon size={14} />
@@ -662,33 +659,6 @@ const AdminSettings = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleFileChange('heroBannerImage', e)}
-                  className="w-full text-xs text-text-light cursor-pointer"
-                />
-              </div>
-
-              {/* Owner Profile Photo */}
-              <div className="rounded-2xl border border-border bg-background p-4 space-y-3">
-                <span className="block text-xs font-bold uppercase tracking-wider text-text">Owner Profile Photo</span>
-                <div className="h-32 w-full rounded-xl border border-dashed border-border bg-surface flex items-center justify-center relative overflow-hidden">
-                  {previews.ownerProfileImage ? (
-                    <>
-                      <img src={previews.ownerProfileImage} alt="Owner Profile" className="h-full w-full object-cover" />
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveMedia('ownerProfileImage')}
-                        className="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1 shadow-md hover:scale-110 transition-transform cursor-pointer"
-                      >
-                        <X size={14} />
-                      </button>
-                    </>
-                  ) : (
-                    <span className="text-xs text-text-light font-medium">No Owner Profile</span>
-                  )}
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleFileChange('ownerProfileImage', e)}
                   className="w-full text-xs text-text-light cursor-pointer"
                 />
               </div>

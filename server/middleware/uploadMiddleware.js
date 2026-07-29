@@ -84,7 +84,6 @@ const uploadSettingsImages = multer({
   { name: 'favicon', maxCount: 1 },
   { name: 'heroBannerImage', maxCount: 1 },
   { name: 'aboutImage', maxCount: 1 },
-  { name: 'ownerProfileImage', maxCount: 1 },
   { name: 'ogImage', maxCount: 1 },
 ]);
 

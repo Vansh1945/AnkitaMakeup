@@ -4,8 +4,15 @@ import api from '../services/api';
 const SettingsContext = createContext(null);
 
 export const SettingsProvider = ({ children }) => {
-  const [settings, setSettings] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [settings, setSettings] = useState(() => {
+    try {
+      const cached = localStorage.getItem('cached_settings');
+      return cached ? JSON.parse(cached) : null;
+    } catch (e) {
+      return null;
+    }
+  });
+  const [loading, setLoading] = useState(!settings);
   const [error, setError] = useState(null);
 
   const fetchSettings = async () => {
@@ -13,6 +20,7 @@ export const SettingsProvider = ({ children }) => {
       const res = await api.get('/website-settings');
       if (res.success && res.data) {
         setSettings(res.data);
+        localStorage.setItem('cached_settings', JSON.stringify(res.data));
         
         // Dynamically update favicon if it exists in settings
         if (res.data.favicon) {

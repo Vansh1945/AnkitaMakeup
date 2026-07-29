@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Sparkles,
@@ -7,13 +7,9 @@ import {
   Heart,
   Clock,
   Calendar,
-  ArrowRight,
-  Phone,
-  Star,
   Smile,
-  RefreshCw,
-  AlertCircle,
-  Feather
+  Feather,
+  BookOpen
 } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { useSettings } from '../context/SettingsContext';
@@ -161,9 +157,9 @@ const About = () => {
                   loading="lazy"
                   className="h-[400px] w-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute bottom-6 left-6 right-6 rounded-2xl bg-surface/95 backdrop-blur-md p-4 border border-border shadow-sm text-center">
-                  <span className="font-playfair text-base font-bold text-text">{ownerName}</span>
-                  <p className="text-[11px] text-primary font-semibold uppercase tracking-wider">{designation}</p>
+                <div className="absolute bottom-6 left-6 right-6 rounded-2xl bg-black/75 backdrop-blur-xl p-4 border border-white/20 shadow-xl text-center">
+                  <span className="font-playfair text-lg font-bold text-white block tracking-wide drop-shadow-sm">{ownerName}</span>
+                  <p className="text-[11px] text-pink-300 font-bold uppercase tracking-wider mt-0.5">{designation}</p>
                 </div>
               </div>
             </div>
@@ -237,7 +233,7 @@ const About = () => {
               <BookOpen size={26} />
             </div>
             <div className="font-playfair text-3xl sm:text-4xl font-black text-primary">
-              {certificationsCount}
+              {certificates.length > 0 ? `${certificates.length}+` : (settings?.certificationsCount || '0')}
             </div>
             <div className="text-xs font-semibold text-text uppercase tracking-wider">
               Certifications

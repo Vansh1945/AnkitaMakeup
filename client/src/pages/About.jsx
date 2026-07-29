@@ -12,7 +12,8 @@ import {
   Star,
   Smile,
   RefreshCw,
-  AlertCircle
+  AlertCircle,
+  Feather
 } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { useSettings } from '../context/SettingsContext';

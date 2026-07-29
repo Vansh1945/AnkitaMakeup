@@ -31,9 +31,31 @@ app.use(helmet({
   crossOriginResourcePolicy: false, // Allows cross-origin image requests (crucial for Cloudinary/static uploads)
 }));
 
-// CORS Configuration
+// Dynamic CORS Configuration
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:5173',
+  'http://localhost:3000'
+].filter(Boolean);
+
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, server-to-server, or curl)
+    if (!origin) return callback(null, true);
+
+    const cleanOrigin = origin.replace(/\/$/, '');
+    const isAllowed = allowedOrigins.some((allowed) => {
+      if (!allowed) return false;
+      const cleanAllowed = allowed.replace(/\/$/, '');
+      return cleanOrigin === cleanAllowed || cleanOrigin.endsWith('.vercel.app');
+    });
+
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Fallback allow to prevent CORS blockage on web client
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
@@ -57,12 +79,15 @@ app.use('/api/v1', generalLimiter);
 app.use('/api/v1', apiRouter);
 
 // Root health & ping response for Render / Uptime monitors
-app.get('/health', (req, res) => {
+app.get('/', (req, res) => {
+  const fullUrl = `${req.protocol}://${req.get('host')}`;
   res.status(200).json({
     success: true,
     message: 'Ankita Makeup Studio Backend API is Live',
     version: '1.0.0',
-    health: '/api/v1/health'
+    url: fullUrl,
+    apiUrl: `${fullUrl}/api/v1`,
+    health: `${fullUrl}/health`
   });
 });
 

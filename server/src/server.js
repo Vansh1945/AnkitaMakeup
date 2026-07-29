@@ -60,36 +60,27 @@ app.use('/api/v1', apiRouter);
 app.use(notFound);
 app.use(errorHandler);
 
+// Initialize Database connection & Cloudinary
+connectDB().catch((err) => console.error('MongoDB connection error:', err));
+connectCloudinary();
+
 const PORT = process.env.PORT || 5000;
 
-// Initialize Database connection and boot server
-const startServer = async () => {
-  try {
-    // Attempt connection to MongoDB
-    await connectDB();
+// Start Express listener when running standalone (not in serverless Vercel environment)
+if (!process.env.VERCEL) {
+  const server = app.listen(PORT, () => {
+    console.log(`  Server is actively listening on port: ${PORT}`);
+    console.log(`  Environment Mode: ${process.env.NODE_ENV}`);
+  });
 
-
-    // Configure Cloudinary credentials
-    connectCloudinary();
-
-    // Start Express listener
-    const server = app.listen(PORT, () => {
-      console.log(`  Server is actively listening on port: ${PORT}`);
-      console.log(`  Environment Mode: ${process.env.NODE_ENV}`);
+  // Handle system shutdowns gracefully
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM signal received. Shutting down gracefully...');
+    server.close(() => {
+      console.log('Server process terminated.');
     });
+  });
+}
 
-    // Handle system shutdowns gracefully
-    process.on('SIGTERM', () => {
-      console.log('SIGTERM signal received. Shutting down gracefully...');
-      server.close(() => {
-        console.log('Server process terminated.');
-      });
-    });
-
-  } catch (error) {
-    console.error('Critical Server Initialization Error:', error.message);
-    process.exit(1);
-  }
-};
-
-startServer();
+// Export Express app for Vercel Serverless Function & testing
+module.exports = app;

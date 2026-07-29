@@ -224,12 +224,10 @@ const AdminSettings = () => {
 
       // Append text & boolean fields
       Object.keys(formData).forEach((key) => {
-        if (!['logo', 'favicon', 'heroBannerImage', 'aboutImage'].includes(key)) {
-          submitData.append(key, formData[key] === null || formData[key] === undefined ? '' : formData[key]);
-        }
+        submitData.append(key, formData[key] === null || formData[key] === undefined ? '' : formData[key]);
       });
 
-      // Append updated file uploads
+      // Append updated file uploads (overrides text field in multer)
       Object.keys(files).forEach((key) => {
         if (files[key]) {
           submitData.append(key, files[key]);
@@ -246,11 +244,18 @@ const AdminSettings = () => {
         if (updated) {
           setInitialData(updated);
           setFormData((prev) => ({ ...prev, ...updated }));
+          setPreviews({
+            logo: updated.logo || '',
+            favicon: updated.favicon || '',
+            heroBannerImage: updated.heroBannerImage || '',
+            aboutImage: updated.aboutImage || ''
+          });
+          setFiles({});
         }
       }
     } catch (err) {
       console.error('Failed to update settings:', err);
-      toast.error(err.message || 'Failed to update website settings');
+      toast.error(err?.response?.data?.message || err.message || 'Failed to update website settings');
     } finally {
       setSaving(false);
     }

@@ -165,8 +165,8 @@ const ManageCertificates = () => {
     if (!formData.title.trim()) errors.title = 'Certificate Title is required';
     if (!formData.institute.trim()) errors.institute = 'Institute Name is required';
     if (!formData.date.trim()) errors.date = 'Completion Date is required';
-    if (!formData.image.trim() && !fileInput) {
-      errors.image = 'Certificate image is required';
+    if (!editingCertId && !fileInput) {
+      errors.image = 'Please upload a certificate image file';
     }
 
     setFormErrors(errors);
@@ -180,24 +180,18 @@ const ManageCertificates = () => {
 
     setSubmitting(true);
     try {
-      let payload;
-      let headers = {};
+      const payload = new FormData();
+      payload.append('title', formData.title.trim());
+      payload.append('institute', formData.institute.trim());
+      payload.append('date', formData.date.trim());
 
       if (fileInput) {
-        payload = new FormData();
-        payload.append('title', formData.title.trim());
-        payload.append('institute', formData.institute.trim());
-        payload.append('date', formData.date.trim());
         payload.append('image', fileInput);
-        headers = { 'Content-Type': 'multipart/form-data' };
-      } else {
-        payload = {
-          title: formData.title.trim(),
-          institute: formData.institute.trim(),
-          date: formData.date.trim(),
-          image: formData.image.trim()
-        };
+      } else if (editingCertId) {
+        payload.append('image', formData.image);
       }
+
+      const headers = { 'Content-Type': 'multipart/form-data' };
 
       if (editingCertId) {
         await api.put(`/certificates/${editingCertId}`, payload, { headers });
@@ -589,10 +583,10 @@ const ManageCertificates = () => {
                 {formErrors.date && <p className="text-[11px] text-rose-500">{formErrors.date}</p>}
               </div>
 
-              {/* Certificate Image Dropzone & URL Input */}
+              {/* Certificate Image Dropzone */}
               <div className="space-y-2">
                 <label className="block text-xs font-semibold uppercase tracking-wider text-text">
-                  Certificate Image Upload <span className="text-rose-500">*</span>
+                  Certificate Image File <span className="text-rose-500">*</span>
                 </label>
 
                 <div className="relative border-2 border-dashed border-border hover:border-primary transition-colors rounded-2xl p-4 text-center cursor-pointer bg-background">
@@ -603,22 +597,10 @@ const ManageCertificates = () => {
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
                   <Upload className="mx-auto text-text-light mb-1" size={20} />
-                  <span className="block text-xs font-semibold text-text">Click to Choose Image File</span>
+                  <span className="block text-xs font-semibold text-text">
+                    {fileInput ? fileInput.name : (editingCertId ? 'Click to Change Certificate Image' : 'Click to Upload Certificate Image File')}
+                  </span>
                   <span className="block text-[10px] text-text-light mt-0.5">PNG, JPG, WEBP up to 5MB</span>
-                </div>
-
-                <div className="pt-1">
-                  <span className="block text-[10px] uppercase font-semibold text-text-light mb-1">Or Image Link / URL:</span>
-                  <input
-                    type="text"
-                    name="image"
-                    placeholder="https://... image URL"
-                    value={formData.image}
-                    onChange={handleInputChange}
-                    className={`w-full rounded-2xl bg-white border px-4 py-2.5 text-xs text-text focus:outline-none focus:border-primary transition-colors ${
-                      formErrors.image ? 'border-rose-400' : 'border-border'
-                    }`}
-                  />
                 </div>
                 {formErrors.image && <p className="text-[11px] text-rose-500">{formErrors.image}</p>}
               </div>

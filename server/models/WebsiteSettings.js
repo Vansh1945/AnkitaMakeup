@@ -44,6 +44,7 @@ const WebsiteSettingsSchema = new mongoose.Schema(
     phone: { type: String, default: '+91 98765 43210', trim: true },
     altPhone: { type: String, default: '', trim: true },
     whatsapp: { type: String, default: '+91 98765 43210', trim: true },
+    whatsappDefaultMessage: { type: String, default: 'Hello! I would like to inquire about booking a makeup appointment.', trim: true },
     email: { type: String, default: 'ankitamakeup@gmail.com', trim: true },
     address: { type: String, default: 'New Delhi, India', trim: true },
     city: { type: String, default: 'New Delhi', trim: true },

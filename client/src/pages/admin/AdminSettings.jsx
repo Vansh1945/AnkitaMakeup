@@ -79,6 +79,7 @@ const AdminSettings = () => {
     phone: '+91 98765 43210',
     altPhone: '',
     whatsapp: '+91 98765 43210',
+    whatsappDefaultMessage: 'Hello! I would like to inquire about booking a makeup appointment.',
     email: 'ankitamakeup@gmail.com',
     address: 'New Delhi, India',
     city: 'New Delhi',
@@ -1019,6 +1020,21 @@ const AdminSettings = () => {
                   name="whatsapp"
                   value={formData.whatsapp || ''}
                   onChange={handleInputChange}
+                  className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-xs text-text focus:border-primary focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="whatsappDefaultMessage" className="block text-xs font-semibold uppercase tracking-wider text-text mb-1.5">
+                  WhatsApp Default Pre-filled Message
+                </label>
+                <input
+                  type="text"
+                  id="whatsappDefaultMessage"
+                  name="whatsappDefaultMessage"
+                  value={formData.whatsappDefaultMessage || ''}
+                  onChange={handleInputChange}
+                  placeholder="e.g. Hello! I would like to inquire about booking a makeup appointment."
                   className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-xs text-text focus:border-primary focus:outline-none"
                 />
               </div>

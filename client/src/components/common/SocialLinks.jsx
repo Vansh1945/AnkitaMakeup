@@ -29,9 +29,10 @@ const SocialLinks = ({
     ? { target: '_blank', rel: 'noopener noreferrer' }
     : {};
 
-  // Formulate cleaned WhatsApp link
+  // Formulate cleaned WhatsApp link with default pre-filled message
   const whatsappNum = (settings.whatsappSocial || settings.whatsapp || settings.phone || '').replace(/[^0-9]/g, '');
-  const whatsappUrl = whatsappNum ? `https://wa.me/${whatsappNum}` : '';
+  const defaultMsg = settings.whatsappDefaultMessage || 'Hello! I would like to inquire about booking a makeup appointment.';
+  const whatsappUrl = whatsappNum ? `https://wa.me/${whatsappNum}?text=${encodeURIComponent(defaultMsg)}` : '';
 
   const socialPlatforms = [
     {

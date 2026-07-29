@@ -98,8 +98,8 @@ const ContactPage = () => {
           </p>
         </section>
 
-        {/* 2. Contact Information Section (4 Dynamic Compact Cards) */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        {/* 2. Contact Information Section (4 Dynamic Compact Cards - 2 per row on mobile) */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
 
           {/* Card 1: Phone */}
           <div className="group rounded-2xl bg-surface border border-border p-4 text-center space-y-2.5 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
@@ -327,11 +327,11 @@ const ContactPage = () => {
                   <h3 className="font-playfair text-xl sm:text-2xl font-bold leading-tight">Need an Instant Reply?</h3>
                 </div>
                 <p className="text-xs text-emerald-50 leading-relaxed">
-                  Chat directly with us on WhatsApp ({whatsappNum}) and get quick assistance.
+                  Chat directly with us on WhatsApp and get quick assistance.
                 </p>
               </div>
               <a
-                href={`https://wa.me/${whatsappClean}?text=${encodeURIComponent('Hello! I would like to inquire about makeup bookings.')}`}
+                href={`https://wa.me/${whatsappClean}?text=${encodeURIComponent(settings?.whatsappDefaultMessage || 'Hello! I would like to inquire about booking a makeup appointment.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 w-full rounded-full bg-white text-emerald-800 hover:bg-emerald-50 py-3.5 px-6 text-xs font-semibold uppercase tracking-wider shadow-sm hover:scale-105 transition-all duration-300 cursor-pointer font-bold mt-2"

@@ -46,7 +46,7 @@ exports.updateSettings = async (req, res, next) => {
       'heroSecondaryButtonText', 'heroSecondaryButtonLink', 'heroOverlayOpacity',
       'aboutTitle', 'aboutSubtitle', 'aboutShortDescription', 'happyClientsCount',
       'completedMakeovers', 'bridalMakeoversCount', 'certificationsCount', 'ctaText', 'ctaLink',
-      'phone', 'altPhone', 'whatsapp', 'email', 'address', 'city', 'state', 'country', 'pincode',
+      'phone', 'altPhone', 'whatsapp', 'whatsappDefaultMessage', 'email', 'address', 'city', 'state', 'country', 'pincode',
       'instagram', 'instagramEnabled', 'facebook', 'facebookEnabled', 'youtube', 'youtubeEnabled',
       'pinterest', 'pinterestEnabled', 'metaTitle', 'metaDescription', 'metaKeywords',
       'canonicalUrl', 'googleAnalyticsId', 'googleSearchConsoleVerification', 'robotsMeta', 'author'

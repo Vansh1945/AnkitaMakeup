@@ -53,6 +53,15 @@ const SEO = ({ title, description, ogTitle, ogDescription, ogImage, ogUrl }) => 
     if (settings?.robotsMeta) {
       setMetaTag('name', 'robots', settings.robotsMeta);
     }
+    if (settings?.googleSearchConsoleVerification) {
+      // Handles both full tag (<meta name="google-site-verification" content="XYZ" />) and raw token (XYZ)
+      let gscToken = settings.googleSearchConsoleVerification.trim();
+      const contentMatch = gscToken.match(/content=["']([^"']+)["']/i);
+      if (contentMatch) {
+        gscToken = contentMatch[1];
+      }
+      setMetaTag('name', 'google-site-verification', gscToken);
+    }
 
     // 2. Canonical URL
     const canonical = settings?.canonicalUrl || window.location.href;
@@ -111,7 +120,35 @@ const SEO = ({ title, description, ogTitle, ogDescription, ogImage, ogUrl }) => 
       schemaData.image = settings.logo;
     }
 
-    jsonLdScript.text = JSON.stringify(schemaData);
+    // 7. Dynamic Google Analytics (gtag.js) Injection
+    const gaId = settings?.googleAnalyticsId?.trim();
+    if (gaId) {
+      // Inject external gtag script
+      let gtagScript = document.getElementById('ga-gtag-script');
+      if (!gtagScript) {
+        gtagScript = document.createElement('script');
+        gtagScript.id = 'ga-gtag-script';
+        gtagScript.async = true;
+        gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+        document.head.appendChild(gtagScript);
+      } else {
+        gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+      }
+
+      // Inject inline gtag configuration script
+      let gtagConfigScript = document.getElementById('ga-gtag-config');
+      if (!gtagConfigScript) {
+        gtagConfigScript = document.createElement('script');
+        gtagConfigScript.id = 'ga-gtag-config';
+        document.head.appendChild(gtagConfigScript);
+      }
+      gtagConfigScript.text = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${gaId}');
+      `;
+    }
 
   }, [title, description, ogTitle, ogDescription, ogImage, ogUrl, settings]);
 

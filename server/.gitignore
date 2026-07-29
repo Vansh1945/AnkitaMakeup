@@ -1,0 +1,22 @@
+# Server dependency directories
+node_modules/
+
+# Environment files & Secrets
+.env
+.env.local
+.env.production
+*.env
+*.local
+
+# Uploads directory
+src/uploads/*
+!src/uploads/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# System & Editor files
+.DS_Store
+Thumbs.db
+.vscode/

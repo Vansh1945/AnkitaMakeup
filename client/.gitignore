@@ -1,0 +1,20 @@
+# Client dependency directories
+node_modules/
+
+# Production build output
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.local
+
+# System & Editor files
+.DS_Store
+Thumbs.db
+.vscode/

@@ -1,0 +1,11 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Admin paths should not be indexed
+Disallow: /admin/
+Disallow: /login
+
+# Sitemap location
+Sitemap: http://localhost:5173/sitemap.xml
+Sitemap: https://ankitamakeup.com/sitemap.xml

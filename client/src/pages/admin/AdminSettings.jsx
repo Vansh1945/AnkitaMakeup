@@ -11,6 +11,7 @@ import {
   RotateCcw,
   Upload,
   X,
+  Trash2,
   Check,
   Sparkles,
   Info,

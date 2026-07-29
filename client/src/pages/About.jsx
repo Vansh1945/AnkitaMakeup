@@ -87,7 +87,7 @@ const About = () => {
   const designation = settings?.tagline || 'Lead Bridal & Party Makeup Artist';
   const experienceYears = settings?.yearsOfExperience || '8+';
   const happyClients = settings?.happyClientsCount || '500+';
-  const completedMakeovers = settings?.completedMakeovers || '800+';
+  const completedMakeovers = settings?.bridalMakeoversCount || settings?.completedMakeovers || '10+';
   const certificationsCount = settings?.certificationsCount || '15+';
   const shortIntro =
     settings?.shortDescription ||

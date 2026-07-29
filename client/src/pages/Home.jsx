@@ -15,7 +15,8 @@ import {
   CheckCircle,
   ShieldCheck,
   RefreshCw,
-  AlertCircle
+  AlertCircle,
+  BookOpen
 } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { useSettings } from '../context/SettingsContext';
@@ -90,6 +91,8 @@ const Home = () => {
   const ownerName = settings?.ownerName || 'Ankita Sen';
   const experienceYears = settings?.yearsOfExperience || '8+';
   const happyClients = settings?.happyClientsCount || '500+';
+  const bridalMakeovers = settings?.bridalMakeoversCount || settings?.completedMakeovers || '10+';
+  const certificationsCount = settings?.certificationsCount || '15+';
   const shortBio =
     settings?.heroDescription ||
     settings?.shortDescription ||
@@ -212,25 +215,25 @@ const Home = () => {
 
           <div className="p-6 rounded-3xl bg-surface border border-border text-center shadow-xs hover:-translate-y-1 transition-transform duration-300 space-y-2">
             <div className="flex justify-center text-primary">
-              <Sparkles size={26} />
+              <Heart size={26} />
             </div>
             <div className="font-playfair text-3xl sm:text-4xl font-black text-primary">
-              {totalServicesCount > 0 ? `${totalServicesCount}+` : (featuredServices.length > 0 ? `${featuredServices.length}+` : '0')}
+              {bridalMakeovers}
             </div>
             <div className="text-xs font-semibold text-text uppercase tracking-wider">
-              Services Offered
+              Bridal Makeovers
             </div>
           </div>
 
           <div className="p-6 rounded-3xl bg-surface border border-border text-center shadow-xs hover:-translate-y-1 transition-transform duration-300 space-y-2">
             <div className="flex justify-center text-primary">
-              <ImageIcon size={26} />
+              <BookOpen size={26} />
             </div>
             <div className="font-playfair text-3xl sm:text-4xl font-black text-primary">
-              {totalGalleryCount > 0 ? `${totalGalleryCount}+` : (galleryImages.length > 0 ? `${galleryImages.length}+` : '0')}
+              {certificationsCount}
             </div>
             <div className="text-xs font-semibold text-text uppercase tracking-wider">
-              Portfolio Images
+              Certifications
             </div>
           </div>
         </section>

@@ -45,7 +45,7 @@ exports.updateSettings = async (req, res, next) => {
       'heroTitle', 'heroSubtitle', 'heroDescription', 'heroButtonText', 'heroButtonLink',
       'heroSecondaryButtonText', 'heroSecondaryButtonLink', 'heroOverlayOpacity',
       'aboutTitle', 'aboutSubtitle', 'aboutShortDescription', 'happyClientsCount',
-      'completedMakeovers', 'certificationsCount', 'ctaText', 'ctaLink',
+      'completedMakeovers', 'bridalMakeoversCount', 'certificationsCount', 'ctaText', 'ctaLink',
       'phone', 'altPhone', 'whatsapp', 'email', 'address', 'city', 'state', 'country', 'pincode',
       'instagram', 'instagramEnabled', 'facebook', 'facebookEnabled', 'youtube', 'youtubeEnabled',
       'pinterest', 'pinterestEnabled', 'metaTitle', 'metaDescription', 'metaKeywords',

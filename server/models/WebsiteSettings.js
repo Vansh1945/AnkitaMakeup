@@ -35,6 +35,7 @@ const WebsiteSettingsSchema = new mongoose.Schema(
     aboutShortDescription: { type: String, default: 'I believe that makeup should make you feel confident, not hide your face.', trim: true },
     happyClientsCount: { type: String, default: '500+', trim: true },
     completedMakeovers: { type: String, default: '800+', trim: true },
+    bridalMakeoversCount: { type: String, default: '10+', trim: true },
     certificationsCount: { type: String, default: '15+', trim: true },
     ctaText: { type: String, default: 'Book Your Session', trim: true },
     ctaLink: { type: String, default: '/contact', trim: true },

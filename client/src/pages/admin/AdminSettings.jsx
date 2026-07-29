@@ -70,6 +70,7 @@ const AdminSettings = () => {
     aboutShortDescription: 'I believe that makeup should make you feel confident, not hide your face.',
     happyClientsCount: '500+',
     completedMakeovers: '800+',
+    bridalMakeoversCount: '10+',
     certificationsCount: '15+',
     ctaText: 'Book Your Session',
     ctaLink: '/contact',
@@ -906,16 +907,19 @@ const AdminSettings = () => {
 
               <div>
                 <label htmlFor="completedMakeovers" className="block text-xs font-semibold uppercase tracking-wider text-text mb-1.5">
-                  Completed Makeovers Count
+                  Bridal / Completed Makeovers Count
                 </label>
                 <input
                   type="text"
                   id="completedMakeovers"
                   name="completedMakeovers"
-                  value={formData.completedMakeovers || ''}
-                  onChange={handleInputChange}
+                  value={formData.completedMakeovers || formData.bridalMakeoversCount || ''}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    setFormData(prev => ({ ...prev, bridalMakeoversCount: e.target.value }));
+                  }}
                   className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-xs text-text focus:border-primary focus:outline-none"
-                  placeholder="e.g. 800+"
+                  placeholder="e.g. 10+ or 800+"
                 />
               </div>
 

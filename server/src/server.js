@@ -11,7 +11,6 @@ const path = require('path');
 // Database & Cloudinary Configuration
 const connectDB = require('./config/db');
 const { connectCloudinary } = require('./config/cloudinary');
-const seedCategories = require('./utils/seedCategories');
 
 // Route & Middleware Imports
 const apiRouter = require('./routes/index');
@@ -69,8 +68,6 @@ const startServer = async () => {
     // Attempt connection to MongoDB
     await connectDB();
 
-    // Auto-seed Categories if database is empty
-    await seedCategories();
 
     // Configure Cloudinary credentials
     connectCloudinary();
